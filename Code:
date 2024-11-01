@@ -1,0 +1,56 @@
+class Complaint:
+    def __init__(self, text):
+        self.text = text
+        self.length = len(text)
+        self.urgency_level = self.set_urgency_level()
+
+    def set_urgency_level(self):
+        # Set initial urgency level based on length of complaint
+        if self.length < 50:
+            return "Low"
+        elif 50 <= self.length <= 150:
+            return "Medium"
+        else:
+            return "High"
+
+        # Check for keywords that may indicate higher urgency
+        keywords = ["urgent", "immediate", "emergency", "asap", "critical"]
+        if any(keyword in self.text.lower() for keyword in keywords):
+            return "High"
+        return self.urgency_level
+
+    def __str__(self):
+        return f"Complaint: {self.text}\nLength: {self.length}\nUrgency Level: {self.urgency_level}"
+
+
+class DispatchSystem:
+    def __init__(self):
+        self.complaints = []
+
+    def add_complaint(self, complaint_text):
+        complaint = Complaint(complaint_text)
+        self.complaints.append(complaint)
+
+    def dispatch(self):
+        # Sort complaints by urgency level
+        urgency_order = {"High": 3, "Medium": 2, "Low": 1}
+        sorted_complaints = sorted(self.complaints, key=lambda x: urgency_order[x.urgency_level], reverse=True)
+
+        for complaint in sorted_complaints:
+            print(complaint)
+
+
+# Example usage
+dispatch_system = DispatchSystem()
+dispatch_system.add_complaint("This is a low urgency complaint.")
+dispatch_system.add_complaint("This is urgent! Please respond ASAP.")
+dispatch_system.add_complaint("A medium length complaint that requires attention.")
+dispatch_system.add_complaint("Emergency situation that needs immediate action!")
+
+# Dispatch the complaints
+dispatch_system.dispatch()
+
+
+#Who Ever Steals this code IS A BITCH! (Also made by TheRealDeal)
+#Uploaded to TheRealDeal321 Github.
+#Made for a Quest.
